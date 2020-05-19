@@ -4,21 +4,43 @@
 
 #### 基本术语
 
-codimension ：固体和流体相差的维数
+codimension ：余维数，固体比流体少的维数，这里只介绍余维数为0的情况。
 
 virtual work principle：虚功原理，把强形式转换成弱形式
 
 #### 基本符号
 
-
+![1589899910690.png](https://upload-images.jianshu.io/upload_images/13486212-e9d713f22d123c79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 #### 1. 动量守恒方程
 
+在整个区域$$\Omega$$都满足下面的公式
 
+$$
+\rho \dot{\mathbf{u}}=\rho\left(\frac{\partial \mathbf{u}}{\partial t}+\mathbf{u} \cdot \nabla \mathbf{u}\right)=\nabla \cdot \sigma \quad \text { in } \Omega
+$$
+
+其中，方程右端的柯西应力张量可以写成
+
+$$
+\sigma=\left\{\begin{array}{ll}
+\sigma_{f} & \text { in } \Omega \backslash B_{t} \\
+\sigma_{f}+\sigma_{s} & \text { in } \mathcal{B}_{t}
+\end{array}\right.
+$$
 
 #### 2. 虚功原理
 
-（我觉得这一步其实已经进行了分部积分）
+假设固体和流体的密度相同，在动量方程两端乘上任意函数$$\mathbf{v}$$，再在整个区域上进行积分，再进行一次分部积分，可以得到
+
+$$
+\begin{array}{l}
+\rho_{t} \int_{\Omega} \dot{\mathbf{u}} \cdot \mathbf{v} d \mathbf{x}=-\int_{\Omega} \sigma: \nabla \mathbf{v} d \mathbf{x}+\int_{\partial \Omega} \sigma \mathbf{n} \cdot \mathbf{v} d a 
+\end{array}
+$$
+
+再将柯西应力张量代入，
+
 $$
 \begin{array}{l}
 \rho_{t} \int_{\Omega} \dot{\mathbf{u}} \cdot \mathbf{v} d \mathbf{x}+\int_{\Omega} \sigma_{f}: \nabla \mathbf{v} d \mathbf{x}-\int_{\partial \Omega} \sigma_{f} \mathbf{n} \cdot \mathbf{v} d a \\
@@ -29,13 +51,13 @@ $$
 其中第一PK应力张量为：
 
 $$
-\tilde{\mathbb{P}}(s, t)=|\mathbb{F}(s, t)|(\mathbf{X}(s, t), t) \mathbb{F}^{-T}(s, t), \quad s \in \mathcal{B}
+\tilde{\mathbb{P}}(s, t)=|\mathbb{F}(s, t)|\sigma_s(\mathbf{X}(s, t), t) \mathbb{F}^{-T}(s, t), \quad s \in \mathcal{B}
 $$
-进而做变量代换  $$x=\mathbf{X}(s,t)$$，可以得到：(这一步不太明白)
+进而做变量代换  $$x=\mathbf{X}(s,t)$$，可以得到：（这一步有两个地方需要注意的，$$\nabla$$变成了$$\nabla_s$$，$$d\mathbf{x}$$变成了$$ds$$，然后才有这样的等式）
 $$
 \int_{\mathcal{B}_{t}} \sigma_{s}: \nabla \mathbf{v} d \mathbf{x}= \int_{B} \tilde{\mathbb{P}}: \nabla_{s} \mathbf{v}(\mathbf{X}(s, t)) d s
 $$
-然后再做一次分部积分，
+然后再做一次分部积分，得到面上的应力积分和体积上的应力积分
 
 $$
 \int_{B} \tilde{\mathbb{P}}: \nabla_{s} \mathbf{v}(\mathbf{X}(s, t)) d s
@@ -85,3 +107,14 @@ $$
 $$
 \int_{\mathcal{B}} (\nabla_{s} \cdot \tilde{\mathbb{P}}) \cdot\mathbf{v} d s=\int_{\mathcal{B}} G \mathbf{v} d s
 $$
+
+#### 3. 问题总结
+
+原来的动量方程可以归结为以下三个方程的求解：
+
+$$\rho \dot{\mathbf{u}}-\nabla \cdot \boldsymbol{\sigma}_{f}=g$$
+
+$$\int_{\mathcal{B}} (\nabla_{s} \cdot \tilde{\mathbb{P}}) \cdot\mathbf{v} d s=\int_{\mathcal{B}} G \mathbf{v} d s$$
+
+$$g=\int_{\mathcal{B}} \nabla_{s} \cdot \tilde{\mathbb{P}} \delta(\mathbf{x}-\mathbf{X}(s, t)) d s=\int_{\mathcal{B}} G \delta(\mathbf{x}-\mathbf{X}(s, t)) d s$$
+
